@@ -1,52 +1,84 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 import { Switch } from "@mui/material";
 import { FormGroup } from "@mui/material";
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-function FormSignUp (){
+function FormSignUp ({handleSubmit}){    
     const [name, setName] = useState('')
-    useEffect(() => {
-        console.log("Name cambio: ", name)
-    })
-    return <form>        
+    const [lastName,setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [prom, setProm] = useState(true)
+    const [nov, setNov] = useState(false)
+    return <form 
+        onSubmit={(e) => {       
+            e.preventDefault()
+            handleSubmit({
+                name,
+                lastName,
+                email,
+                prom,
+                nov
+                })
+            }}
+        >        
         <TextField 
             id="mane" 
             label="Nombre" 
             variant="outlined" 
             fullWidth 
             margin="normal"
-            onChange={(e) => {
-                console.log(e.target.value)
-                setName(e.target.value)
-            }}
             value={name}
+            onChange={(e) =>                 
+                setName(e.target.value)
+            }            
         />
         <TextField 
             id="lastmane"
             label="Apellidos"
             variant="outlined"
             fullWidth
-            margin="normal"/>
+            margin="normal"
+            value={lastName}
+            onChange={(e) => 
+                setLastName(e.target.value)
+            }
+        />
         <TextField 
             id="email"
             label="Email"
             variant="outlined"
             fullWidth
-            margin="normal"/>
+            margin="normal"
+            value={email}
+            onChange={(e) =>
+                setEmail(e.target.value)}
+            />
         <FormGroup>
             <FormControlLabel control={
-                <Switch defaultChecked />} 
+                <Switch                      
+                    checked={prom} 
+                    onChange={(e) =>
+                        setProm(e.target.checked)
+                    }
+
+                />} 
                 label="Promociones"
             />
             <FormControlLabel control={
-                <Switch defaultChecked />}
+                <Switch 
+                    checked={nov}
+                    onChange={(e) =>
+                        setNov(e.target.checked)
+                    }
+                />}
                 label="Novedades" 
             />        
         </FormGroup>
         <Button 
-            variant="contained"            
+            variant="contained" 
+            type="submit"           
         >
             Registrarse
         </Button>
